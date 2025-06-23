@@ -8,7 +8,8 @@ on:
       - 'terraform/**'
       - '**.tf'
       - '.github/workflows/**'
-
+      - 'README.md'            # ✅ Include any file you plan to edit to trigger CI/CD
+      - 'TRIGGER.md'           # (optional for dummy triggers)
 jobs:
   terraform:
     runs-on: ubuntu-latest
