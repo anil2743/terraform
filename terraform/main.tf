@@ -24,11 +24,12 @@ resource "aws_security_group" "allow_ssh_http" {
 }
 
 resource "aws_instance" "web" {
-  ami                    = "ami-0f5ee92e2d63afc18" # ✅ Ubuntu 22.04 LTS (Mumbai region)
-  instance_type          = var.instance_type
-  key_name               = var.key_name
-  security_groups        = [aws_security_group.allow_ssh_http.name]
-  user_data_replace_on_change = true 
+  ami                         = "ami-0f5ee92e2d63afc18" # Ubuntu 22.04 LTS (Mumbai)
+  instance_type               = var.instance_type
+  key_name                    = var.key_name
+  security_groups             = [aws_security_group.allow_ssh_http.name]
+  user_data_replace_on_change = true
+
   user_data = <<-EOF
               #!/bin/bash
               apt update -y
@@ -40,5 +41,9 @@ resource "aws_instance" "web" {
 
   tags = {
     Name = "TerraformWebServer"
+  }
+
+  lifecycle {
+    create_before_destroy = true
   }
 }
