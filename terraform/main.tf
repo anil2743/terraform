@@ -1,5 +1,5 @@
 resource "aws_security_group" "allow_ssh_http" {
-  name = "allow-ssh-http-3"
+  name = "allow-ssh-http-4"
 
   ingress {
     from_port   = 22
