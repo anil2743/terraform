@@ -1,5 +1,5 @@
 resource "aws_security_group" "allow_ssh_http" {
-  name = "allow-ssh-http-2"
+  name = "allow-ssh-http-3"
 
   ingress {
     from_port   = 22
@@ -24,18 +24,18 @@ resource "aws_security_group" "allow_ssh_http" {
 }
 
 resource "aws_instance" "web" {
-  ami                    = "ami-0f58b397bc5c1f2e8" # Amazon Linux 2
+  ami                    = "ami-0f1b8b65a5e3a1cc4" # ✅ Ubuntu 22.04 LTS (Mumbai region)
   instance_type          = var.instance_type
   key_name               = var.key_name
   security_groups        = [aws_security_group.allow_ssh_http.name]
 
   user_data = <<-EOF
               #!/bin/bash
-              yum update -y
-              yum install -y httpd
-              systemctl start httpd
-              systemctl enable httpd
+              apt update -y
+              apt install apache2 -y
               echo "<h1>Hello from Terraform + GitHub CI/CD</h1>" > /var/www/html/index.html
+              systemctl start apache2
+              systemctl enable apache2
             EOF
 
   tags = {
