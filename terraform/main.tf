@@ -24,10 +24,10 @@ resource "aws_security_group" "allow_ssh_http" {
 }
 
 resource "aws_instance" "web" {
-  ami                    = "ami-0f5ee92e2d63afc18"
-  instance_type          = var.instance_type
-  key_name               = var.key_name
-  security_groups        = [aws_security_group.allow_ssh_http.name]
+  ami                         = "ami-0f5ee92e2d63afc18" # Ubuntu 22.04 LTS (Mumbai)
+  instance_type               = var.instance_type
+  key_name                    = var.key_name
+  security_groups             = [aws_security_group.allow_ssh_http.name]
 
   user_data_replace_on_change = true
   user_data = <<-EOF
@@ -49,14 +49,24 @@ resource "aws_instance" "web" {
 
   provisioner "remote-exec" {
     inline = [
-      "echo '<h1>UPDATED PAGE — from Anil Yadav via remote-exec</h1>' | sudo tee /var/www/html/index.html"
+      "echo '<h1>Updated by Anil Yadav via remote-exec 🚀</h1>' | sudo tee /var/www/html/index.html"
     ]
 
     connection {
       type        = "ssh"
       user        = "ubuntu"
-      private_key = file("${path.module}/terraform1.pem")  # ✅ File inside the project folder
-      host        = self.public_ip
+      private_key = file("${path.module}/../terraform1.pem") # 🔥 Make sure this .pem is one level above terraform/ folder
+      host        = aws_eip.web_eip.public_ip
     }
   }
+}
+
+resource "aws_eip" "web_eip" {
+  instance = aws_instance.web.id
+  vpc      = true
+}
+
+output "instance_ip" {
+  description = "Static Elastic IP for your instance"
+  value       = aws_eip.web_eip.public_ip
 }
