@@ -55,7 +55,7 @@ resource "aws_instance" "web" {
     connection {
       type        = "ssh"
       user        = "ubuntu"
-      private_key = file("C:\Users\anith\Downloads\my-terraform-project.terraform1.pem") # Replace with correct path
+      private_key = file("C:/Users/anith/Downloads/my-terraform-project.terraform1.pem")
       host        = self.public_ip
     }
   }
