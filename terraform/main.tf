@@ -1,5 +1,5 @@
 resource "aws_security_group" "allow_ssh_http" {
-  name_prefix = "allow-ssh-http-"
+  name_prefix = "allow-ssh-http-"  # Let Terraform generate a unique name
 
   ingress {
     from_port   = 22
@@ -34,7 +34,7 @@ resource "aws_instance" "web" {
               #!/bin/bash
               apt update -y
               apt install apache2 -y
-              echo "<h1>Hello HERE ANIL YADAV from Terraform + GitHub CI/CD</h1>" > /var/www/html/index.html
+              echo "<h1>Hello HERE ANIL YADAV  last update from Terraform + GitHub CI/CD</h1>" > /var/www/html/index.html
               systemctl start apache2
               systemctl enable apache2
             EOF
@@ -45,18 +45,5 @@ resource "aws_instance" "web" {
 
   lifecycle {
     ignore_changes = [user_data]
-  }
-
-  provisioner "remote-exec" {
-    inline = [
-      "echo '<h1>Hello from Anil Yadav - UPDATED via remote-exec</h1>' | sudo tee /var/www/html/index.html"
-    ]
-
-    connection {
-      type        = "ssh"
-      user        = "ubuntu"
-      private_key = file("C:/Users/anith/Downloads/my-terraform-project.terraform1.pem")
-      host        = self.public_ip
-    }
   }
 }
