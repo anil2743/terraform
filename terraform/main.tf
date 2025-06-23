@@ -28,12 +28,12 @@ resource "aws_instance" "web" {
   instance_type          = var.instance_type
   key_name               = var.key_name
   security_groups        = [aws_security_group.allow_ssh_http.name]
-
+  user_data_replace_on_change = true 
   user_data = <<-EOF
               #!/bin/bash
               apt update -y
               apt install apache2 -y
-              echo "<h1>Hello HERE ANIL from Terraform + GitHub CI/CD</h1>" > /var/www/html/index.html
+              echo "<h1>Hello HERE ANIL YADAV from Terraform + GitHub CI/CD</h1>" > /var/www/html/index.html
               systemctl start apache2
               systemctl enable apache2
             EOF
