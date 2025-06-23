@@ -1,5 +1,5 @@
 resource "aws_security_group" "allow_ssh_http" {
-  name = "allow-ssh-http-4"
+  name = "allow-ssh-http-5"
 
   ingress {
     from_port   = 22
@@ -24,7 +24,7 @@ resource "aws_security_group" "allow_ssh_http" {
 }
 
 resource "aws_instance" "web" {
-  ami                    = "ami-0fc5d935ebf8bc3bc" # ✅ Ubuntu 22.04 LTS (Mumbai region)
+  ami                    = "ami-0f5ee92e2d63afc18" # ✅ Ubuntu 22.04 LTS (Mumbai region)
   instance_type          = var.instance_type
   key_name               = var.key_name
   security_groups        = [aws_security_group.allow_ssh_http.name]
