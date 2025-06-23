@@ -1,5 +1,5 @@
 resource "aws_security_group" "allow_ssh_http" {
-  name_prefix = "allow-ssh-http-"  # Let Terraform generate a unique name
+  name_prefix = "allow-ssh-http-"
 
   ingress {
     from_port   = 22
@@ -28,8 +28,8 @@ resource "aws_instance" "web" {
   instance_type               = var.instance_type
   key_name                    = var.key_name
   security_groups             = [aws_security_group.allow_ssh_http.name]
-  user_data_replace_on_change = true
 
+  user_data_replace_on_change = true
   user_data = <<-EOF
               #!/bin/bash
               apt update -y
@@ -44,6 +44,19 @@ resource "aws_instance" "web" {
   }
 
   lifecycle {
-    create_before_destroy = true
+    ignore_changes = [user_data]
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "echo '<h1>Hello from Anil Yadav - UPDATED via remote-exec</h1>' | sudo tee /var/www/html/index.html"
+    ]
+
+    connection {
+      type        = "ssh"
+      user        = "ubuntu"
+      private_key = file("C:\Users\anith\Downloads\my-terraform-project.terraform1.pem") # Replace with correct path
+      host        = self.public_ip
+    }
   }
 }
