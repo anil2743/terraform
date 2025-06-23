@@ -33,7 +33,7 @@ resource "aws_instance" "web" {
               #!/bin/bash
               apt update -y
               apt install apache2 -y
-              echo "<h1>Hello from Terraform + GitHub CI/CD</h1>" > /var/www/html/index.html
+              echo "<h1>Hello HERE ANIL from Terraform + GitHub CI/CD</h1>" > /var/www/html/index.html
               systemctl start apache2
               systemctl enable apache2
             EOF
