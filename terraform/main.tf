@@ -24,7 +24,7 @@ resource "aws_security_group" "allow_ssh_http" {
 }
 
 resource "aws_instance" "web" {
-  ami                    = "ami-0f1b8b65a5e3a1cc4" # ✅ Ubuntu 22.04 LTS (Mumbai region)
+  ami                    = "ami-0fc5d935ebf8bc3bc" # ✅ Ubuntu 22.04 LTS (Mumbai region)
   instance_type          = var.instance_type
   key_name               = var.key_name
   security_groups        = [aws_security_group.allow_ssh_http.name]
